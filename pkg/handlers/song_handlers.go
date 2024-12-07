@@ -58,15 +58,9 @@ func GetSongs(c *gin.Context) {
 // @Param id path int true "ID песни"
 // @Param page query int false "Номер страницы"
 // @Param size query int false "Размер страницы"
-//
-//	@Success 200 {object} struct{
-//	    Verses []string `json:"verses"`;
-//	    TotalPages int `json:"totalPages"`;
-//	    CurrentPage int `json:"currentPage"`;
-//	}
-//
-// @Failure 404 {object} gin.H{"error":string}
-// @Failure 500 {object} gin.H{"error":string}
+// @Success 200 {object} models.SongLyricsResponse
+// @Failure 404 {object} models.ErrorResponse
+// @Failure 500 {object} models.ErrorResponse
 // @Router /songs/{id}/lyrics [get]
 func GetSongText(c *gin.Context) {
 	var song models.Song
@@ -96,14 +90,14 @@ func GetSongText(c *gin.Context) {
 
 // AddSong добавляет новую песню в библиотеку
 // @Summary Добавить песню
-// @Description Добавляет новую песню в библиотеку с данными из внешнего API
+// @Description Добавляет новую песню в библиотеку
 // @Tags Songs
 // @Accept json
 // @Produce json
-// @Param song body struct{Group string; Song string} true "Группа и название песни"
+// @Param song body models.AddSongRequest true "Группа и название песни"
 // @Success 201 {object} models.Song
-// @Failure 400 {object} gin.H{"error":string}
-// @Failure 500 {object} gin.H{"error":string}
+// @Failure 400 {object} models.ErrorResponse
+// @Failure 500 {object} models.ErrorResponse
 // @Router /songs [post]
 func AddSong(c *gin.Context) {
 	var newSong struct {
@@ -151,9 +145,9 @@ func AddSong(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path int true "ID песни"
-// @Success 200 {object} gin.H{"message":string}
-// @Failure 404 {object} gin.H{"error":string}
-// @Failure 500 {object} gin.H{"error":string}
+// @Success 200 {object} models.MessageResponse
+// @Failure 404 {object} models.ErrorResponse
+// @Failure 500 {object} models.ErrorResponse
 // @Router /songs/{id} [delete]
 func DeleteSong(c *gin.Context) {
 	var song models.Song
@@ -174,19 +168,11 @@ func DeleteSong(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path int true "ID песни"
-//
-//	@Param song body struct{
-//	    Group string `json:"group,omitempty"`;
-//	    Song string `json:"song,omitempty"`;
-//	    ReleaseDate string `json:"releaseDate,omitempty"`;
-//	    Text string `json:"text,omitempty"`;
-//	    Link string `json:"link,omitempty"`;
-//	} true "Данные для обновления"
-//
+// @Param song body models.UpdateSongRequest true "Данные для обновления"
 // @Success 200 {object} models.Song
-// @Failure 400 {object} gin.H{"error":string}
-// @Failure 404 {object} gin.H{"error":string}
-// @Failure 500 {object} gin.H{"error":string}
+// @Failure 400 {object} models.ErrorResponse
+// @Failure 404 {object} models.ErrorResponse
+// @Failure 500 {object} models.ErrorResponse
 // @Router /songs/{id} [put]
 func UpdateSong(c *gin.Context) {
 	var song models.Song
